@@ -9,36 +9,70 @@ import javafx.util.Duration;
 
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ControllerGame {
 
     @FXML
     private Rectangle card00, card01, card02, card03, card10, card11, card12, card13, card20, card21, card22, card23, card30, card31, card32, card33;
+    // Create a map to keep track of color assignments
+    HashMap<Color, Integer> colorCounter = new HashMap<>();
+    HashMap<Rectangle, Color> cardsColors = new HashMap<>();
 
     public void initialize() {
-        card00.setFill(Color.RED);
-        card00.setOnMouseClicked(e -> clicked(card00));
-        card01.setOnMouseClicked(e -> clicked(card01));
-        card02.setOnMouseClicked(e -> clicked(card02));
-        card03.setOnMouseClicked(e -> clicked(card03));
-        card10.setOnMouseClicked(e -> clicked(card10));
-        card11.setOnMouseClicked(e -> clicked(card11));
-        card12.setOnMouseClicked(e -> clicked(card12));
-        card13.setOnMouseClicked(e -> clicked(card13));
-        card20.setOnMouseClicked(e -> clicked(card20));
-        card21.setOnMouseClicked(e -> clicked(card21));
-        card22.setOnMouseClicked(e -> clicked(card22));
-        card23.setOnMouseClicked(e -> clicked(card23));
-        card30.setOnMouseClicked(e -> clicked(card30));
-        card31.setOnMouseClicked(e -> clicked(card31));
-        card32.setOnMouseClicked(e -> clicked(card32));
-        card33.setOnMouseClicked(e -> clicked(card33));
+        ArrayList<Color> colors = new ArrayList<>() {{{
+            add(Color.RED);
+            add(Color.BLUE);
+            add(Color.GREEN);
+            add(Color.YELLOW);
+            add(Color.PURPLE);
+            add(Color.ORANGE);
+            add(Color.PINK);
+            add(Color.BROWN);
+        }}};
+        ArrayList<Rectangle> cards = new ArrayList<>() {{{
+            add(card00);
+            add(card01);
+            add(card02);
+            add(card03);
+            add(card10);
+            add(card11);
+            add(card12);
+            add(card13);
+            add(card20);
+            add(card21);
+            add(card22);
+            add(card23);
+            add(card30);
+            add(card31);
+            add(card32);
+            add(card33);
+        }}};
 
+        for (Rectangle card : cards) {
+            card.setFill(Color.CYAN);
+            card.setOnMouseClicked(e -> clicked(card));
+            Color color = colors.get((int) (Math.random() * colors.size()));
+            if (colorCounter.containsKey(color)) {
+                int count = colorCounter.get(color);
+                if (count < 2) {
+                    colorCounter.put(color, count + 1);
+                    card.setFill(color);
+                    cardsColors.put(card, color);
+                } else {
+                    colors.remove(color);
+                }
+            } else {
+                colorCounter.put(color, 1);
+                card.setFill(color);
+                cardsColors.put(card, color);
+            }
+        }
     }
     @FXML
     public void clicked(Rectangle card) {
         RotateTransition rotateTransition = new RotateTransition(Duration.seconds(1), card);
-
         rotateTransition.setByAngle(180); // Rotate by 180 degrees
         rotateTransition.setAxis(Rotate.Y_AXIS);
         rotateTransition.setAutoReverse(true);
