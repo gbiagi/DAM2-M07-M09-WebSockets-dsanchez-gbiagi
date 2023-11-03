@@ -10,6 +10,7 @@ import javafx.util.Duration;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class ControllerGame {
@@ -51,22 +52,30 @@ public class ControllerGame {
         }}};
 
         for (Rectangle card : cards) {
-            card.setFill(Color.CYAN);
+            Color color;
+            boolean painted = false;
+            card.setFill(Color.SILVER);
+            card.setStroke(Color.BLACK);
             card.setOnMouseClicked(e -> clicked(card));
-            Color color = colors.get((int) (Math.random() * colors.size()));
-            if (colorCounter.containsKey(color)) {
-                int count = colorCounter.get(color);
-                if (count < 2) {
-                    colorCounter.put(color, count + 1);
-                    card.setFill(color);
+            while (!painted) {
+                color = colors.get((int) (Math.random() * colors.size()));
+                System.out.println(color);
+                if (!colorCounter.containsKey(color)) {
+                    colorCounter.put(color, 1);
                     cardsColors.put(card, color);
+                    //card.setFill(color);
+                    painted = true;
                 } else {
-                    colors.remove(color);
+                    int count = colorCounter.get(color);
+                    if (count < 2) {
+                        colorCounter.put(color, count + 1);
+                        //card.setFill(color);
+                        cardsColors.put(card, color);
+                        painted = true;
+                        System.out.println("pintado^^^^^^^^^^^^^^^^^^^");
+                        break;
+                    }
                 }
-            } else {
-                colorCounter.put(color, 1);
-                card.setFill(color);
-                cardsColors.put(card, color);
             }
         }
     }
@@ -75,15 +84,12 @@ public class ControllerGame {
         RotateTransition rotateTransition = new RotateTransition(Duration.seconds(1), card);
         rotateTransition.setByAngle(180); // Rotate by 180 degrees
         rotateTransition.setAxis(Rotate.Y_AXIS);
-        rotateTransition.setAutoReverse(true);
-
-        if (card.getFill() == Color.RED) {
-            card.setFill(Color.BLUE); // Back side color
+        if (card.getFill() == Color.SILVER) {
+            card.setFill(cardsColors.get(card));
         } else {
-            card.setFill(Color.RED);
+            card.setFill(Color.SILVER);
         }
-
         // Play the animation
-        rotateTransition.play();    }
-
+        rotateTransition.play();    
+    }
 }
