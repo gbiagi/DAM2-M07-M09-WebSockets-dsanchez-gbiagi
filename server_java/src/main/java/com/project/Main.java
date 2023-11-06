@@ -10,27 +10,31 @@ import java.util.Enumeration;
 // Tutorials: http://tootallnate.github.io/Java-WebSocket/
 
 /*
-    WebSockets server, example of messages:
+    WebSocket messages:
 
-    From client to server:
-        - List of clients       { "type": "list" }
-        - Private message       { "type": "private", "value": "Hello 002", "destination": "002" }
-        - Broadcast message     { "type": "broadcast", "value": "Hello everyone" }
+    Client to server:
+        - Connection posibilities:
+            ~ Create game       { "type": "createGame" }
+            ~ Join game         { "type": "joinGame", "gameID": "gameID"}            
+        - Focus card            { "type": "markCard", "gameID": "gameID", "index": [row, col] }            
+        - Select card           { "type": "flipCard", "gameID": "gameID", "index": [row, col] }
+    
+    Server to client:
+        + Error missage         { "type": "error", "value": "Show error list" }
+        + Connection            { "type": "conn", "usrID": "usrID" }
+        + Create game           { "type": "gameCreated", "gameID": "gameID" }
+        + Send status           { "type": "gameSatus", "enemiID": "ID", "turn": "playerTurn", "playerPoints": "num", "enemiPoints": "num" }
+        - Focus card            { "type": "markCard", "card": "cardName", "index": [row, col] }
+        - Select card           { "type": "flipCard", "card": "cardName", "index": [row, col] }
+        - Cards worng           { "type": "wrongCards", "card0": "cardName", "index0": [row, col], "card1": "cardName", "index1": [row, col] }    
 
-    From server to client:
-        - Welcome message       { "type": "private", "from": "server", "value": "Welcome to the chat server" }
-        - Client Id             { "type": "id", "from": "server", "value": "002" }
-        - List of clients       { "type": "list", "from": "server", "list": ["001", "002", "003"] }
-        - Private message       { "type": "private", "from": "001", "value": "Hello 002" }
-        - Broadcast message     { "type": "broadcast", "from": "001", "value": "Hello everyone" }
-        - Client connected      { "type": "connected", "from": "server", "id": "001" }
-        - Client disconnected   { "type": "disconnected", "from": "server", "id": "001" }
- */
+    Error list:
+        - Game id wrong         201
+*/
 
 public class Main {
 
-
-    public static void main (String[] args) throws InterruptedException, IOException {
+    public static void main(String[] args) throws InterruptedException, IOException {
 
         int port = 8888;
         String localIp = getLocalIPAddress();
@@ -42,7 +46,6 @@ public class Main {
         Memory server = new Memory(port);
         server.runServerBucle();
     }
-    
 
     public static String getLocalIPAddress() throws SocketException, UnknownHostException {
         String localIp = "";

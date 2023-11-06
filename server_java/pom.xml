@@ -26,6 +26,13 @@
   </build>
 
   <dependencies>
+    <!-- Dependency for JSON -->
+    <dependency>
+        <groupId>org.json</groupId>
+        <artifactId>json</artifactId>
+        <version>20220924</version> <!-- This seems to be a future date, please ensure it's the correct version -->
+    </dependency>
+
     <dependency>
         <groupId>javax.json</groupId>
         <artifactId>javax.json-api</artifactId>
