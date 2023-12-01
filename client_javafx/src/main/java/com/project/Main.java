@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import jdk.jshell.execution.Util;
 
 public class Main extends Application {
 
@@ -20,6 +21,7 @@ public class Main extends Application {
         final int windowHeight = 600;
         try {
             UtilsViews.parentContainer.setStyle("-fx-font: 14 arial;");
+            UtilsViews.addView(getClass(), "Login", "/assets/layout_login.fxml");
             UtilsViews.addView(getClass(), "Game", "/assets/layout_partida.fxml");
         } catch (Exception e) {e.printStackTrace();}
 
@@ -41,7 +43,6 @@ public class Main extends Application {
 
     @Override
     public void stop() { 
-        //AppData.getInstance().disconnectFromServer();
         System.exit(1); // Kill all executor services
     }
 }
