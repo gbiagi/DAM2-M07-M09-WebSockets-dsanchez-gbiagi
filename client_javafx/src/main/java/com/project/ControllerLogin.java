@@ -16,8 +16,7 @@ public class ControllerLogin {
     }
 
     private void loginServer() {
-        if (inputServer.getText().isEmpty()) {
-            UtilsViews.setView("Game");
-        }
+        UtilsViews.setView("Game");
+
     }
 }
