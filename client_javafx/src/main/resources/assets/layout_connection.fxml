@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.ControllerRoom">
+   <children>
+      <AnchorPane prefHeight="50.0" prefWidth="800.0" style="-fx-background-color: limegreen;" AnchorPane.bottomAnchor="750.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label layoutX="343.0" layoutY="10.0" text="Memory">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="750.0" prefWidth="800.0" AnchorPane.topAnchor="50.0">
+         <children>
+            <Pane layoutX="150.0" layoutY="51.0" prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: limegreen; -fx-background-radius: 60;" AnchorPane.bottomAnchor="250.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="100.0">
+               <children>
+                  <Text layoutX="125.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Partida:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="inputPartida" layoutX="125.0" layoutY="75.0" prefWidth="250.0" promptText="Id de la partida">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </TextField>
+                  <Button fx:id="buttonConectar" layoutX="98.0" layoutY="200.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="124.0" text="Connectar">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="buttonCrearPartida" layoutX="270.0" layoutY="200.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="124.0" text="Crear Partida">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

@@ -7,6 +7,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
+import org.json.JSONObject;
 
 
 import java.util.ArrayList;
@@ -19,21 +20,10 @@ public class ControllerGame {
     @FXML
     private Text player1, player2;
     // Create a map to keep track of color assignments
-    HashMap<Color, Integer> colorCounter = new HashMap<>();
+    //HashMap<Color, Integer> colorCounter = new HashMap<>();
     HashMap<Rectangle, Color> cardsColors = new HashMap<>();
 
     public void initialize() {
-        // Creamos la lista de colores
-        ArrayList<Color> colors = new ArrayList<>() {{{
-            add(Color.RED);
-            add(Color.BLUE);
-            add(Color.GREEN);
-            add(Color.YELLOW);
-            add(Color.PURPLE);
-            add(Color.ORANGE);
-            add(Color.PINK);
-            add(Color.BROWN);
-        }}};
         // Creamos la lista de cartas
         ArrayList<Rectangle> cards = new ArrayList<>() {{{
             add(card00);
@@ -53,46 +43,32 @@ public class ControllerGame {
             add(card32);
             add(card33);
         }}};
-        // Asignamos los colores a las cartas
+        // Pintamos las cartas de gris
         for (Rectangle card : cards) {
-            Color color;
-            boolean painted = false;
             card.setFill(Color.SILVER);
-            card.setStroke(Color.BLACK);
-            card.setOnMouseClicked(e -> clicked(card));
-            while (!painted) {
-                color = colors.get((int) (Math.random() * colors.size()));
-                if (!colorCounter.containsKey(color)) {
-                    colorCounter.put(color, 1);
-                    cardsColors.put(card, color);
-                    //card.setFill(color);
-                    painted = true;
-                } else {
-                    int count = colorCounter.get(color);
-                    if (count < 2) {
-                        colorCounter.put(color, count + 1);
-                        //card.setFill(color);
-                        cardsColors.put(card, color);
-                        painted = true;
-                        break;
-                    }
-                }
-            }
         }
     }
     // Metodo para voltear la carta y ver su color asignado
     @FXML
     public void clicked(Rectangle card) {
+        String id = card.getId();
+        int row = Integer.parseInt(id.substring(4, 5));
+        int col = Integer.parseInt(id.substring(5, 6));
+        String gameID = AppData.getInstance().getGameID();
+        JSONObject objRequest = new JSONObject("{}");
+        objRequest.put("type", "flipCard");
+        objRequest.put("gameID", gameID);
+        objRequest.put("row", row);
+        objRequest.put("col", col);
+        AppData.getInstance().getServerClient().send(objRequest.toString());
+
+        }
+    public void cambioColor(Rectangle card, String color){
         RotateTransition rotateTransition = new RotateTransition(Duration.seconds(1), card);
         rotateTransition.setByAngle(180); // Rotate by 180 degrees
         rotateTransition.setAxis(Rotate.Y_AXIS);
-        if (card.getFill() == Color.SILVER) {
-            card.setFill(cardsColors.get(card));
-        } else {
-            card.setFill(Color.SILVER);
-        }
-        // Rotar la carta con animacion
-        rotateTransition.play();    
-    }
 
+        // Rotar la carta con animacion
+        rotateTransition.play();
+    }
 }

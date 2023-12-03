@@ -123,7 +123,7 @@ public class Memory extends WebSocketServer {
                     }
                 }
 
-                // If the gameId dosn't exist send a error missage to the client
+                // If the gameId doesn't exist send an error message to the client
                 if (!idExist) {
                     JSONObject objCln = new JSONObject("{}");
                     objCln.put("type", "gameCreated");
