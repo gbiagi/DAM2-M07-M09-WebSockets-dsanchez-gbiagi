@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.ControllerGame">
    <children>
@@ -18,22 +19,32 @@
       </AnchorPane>
       <AnchorPane prefHeight="750.0" prefWidth="800.0" AnchorPane.topAnchor="50.0">
          <children>
-            <Rectangle fx:id="card00" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="150.0" layoutX="100.0" layoutY="40.0" stroke="BLACK" strokeType="INSIDE" width="100.0" AnchorPane.leftAnchor="120.0" AnchorPane.topAnchor="40.0" />
-            <Rectangle fx:id="card01" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="150.0" layoutX="275.0" layoutY="40.0" stroke="BLACK" strokeType="INSIDE" width="100.0" AnchorPane.leftAnchor="275.0" AnchorPane.topAnchor="40.0" />
-            <Rectangle fx:id="card02" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="150.0" layoutX="450.0" layoutY="40.0" stroke="BLACK" strokeType="INSIDE" width="100.0" AnchorPane.rightAnchor="275.0" AnchorPane.topAnchor="40.0" />
-            <Rectangle fx:id="card03" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="150.0" layoutX="592.0" layoutY="40.0" stroke="BLACK" strokeType="INSIDE" width="100.0" AnchorPane.rightAnchor="120.0" AnchorPane.topAnchor="40.0" />
-            <Rectangle fx:id="card10" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="150.0" layoutX="120.0" layoutY="212.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
-            <Rectangle fx:id="card11" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="150.0" layoutX="275.0" layoutY="212.0" stroke="BLACK" strokeType="INSIDE" width="100.0" AnchorPane.rightAnchor="425.0" />
-            <Rectangle fx:id="card12" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="150.0" layoutX="425.0" layoutY="212.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
-            <Rectangle fx:id="card13" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="150.0" layoutX="580.0" layoutY="212.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
-            <Rectangle fx:id="card20" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="150.0" layoutX="120.0" layoutY="389.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
-            <Rectangle fx:id="card21" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="150.0" layoutX="275.0" layoutY="389.0" stroke="BLACK" strokeType="INSIDE" width="100.0" AnchorPane.rightAnchor="425.0" />
-            <Rectangle fx:id="card22" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="150.0" layoutX="425.0" layoutY="389.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
-            <Rectangle fx:id="card23" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="150.0" layoutX="580.0" layoutY="389.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
-            <Rectangle fx:id="card30" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="150.0" layoutX="120.0" layoutY="560.0" stroke="BLACK" strokeType="INSIDE" width="100.0" AnchorPane.bottomAnchor="40.0" />
-            <Rectangle fx:id="card31" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="150.0" layoutX="275.0" layoutY="560.0" stroke="BLACK" strokeType="INSIDE" width="100.0" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="425.0" />
-            <Rectangle fx:id="card32" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="150.0" layoutX="425.0" layoutY="566.0" stroke="BLACK" strokeType="INSIDE" width="100.0" AnchorPane.bottomAnchor="40.0" />
-            <Rectangle fx:id="card33" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="150.0" layoutX="580.0" layoutY="560.0" stroke="BLACK" strokeType="INSIDE" width="100.0" AnchorPane.bottomAnchor="40.0" />
+            <Rectangle fx:id="card00" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="125.0" layoutX="100.0" layoutY="40.0" stroke="BLACK" strokeType="INSIDE" width="100.0" AnchorPane.bottomAnchor="560.0" AnchorPane.leftAnchor="120.0" />
+            <Rectangle fx:id="card01" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="125.0" layoutX="275.0" layoutY="40.0" stroke="BLACK" strokeType="INSIDE" width="100.0" AnchorPane.bottomAnchor="560.0" AnchorPane.leftAnchor="275.0" />
+            <Rectangle fx:id="card02" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="125.0" layoutX="450.0" layoutY="40.0" stroke="BLACK" strokeType="INSIDE" width="100.0" AnchorPane.bottomAnchor="560.0" AnchorPane.rightAnchor="275.0" />
+            <Rectangle fx:id="card03" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="125.0" layoutX="592.0" layoutY="40.0" stroke="BLACK" strokeType="INSIDE" width="100.0" AnchorPane.bottomAnchor="560.0" AnchorPane.rightAnchor="120.0" />
+            <Rectangle fx:id="card10" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="125.0" layoutX="120.0" layoutY="212.0" stroke="BLACK" strokeType="INSIDE" width="100.0" AnchorPane.bottomAnchor="380.0" />
+            <Rectangle fx:id="card11" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="125.0" layoutX="275.0" layoutY="212.0" stroke="BLACK" strokeType="INSIDE" width="100.0" AnchorPane.bottomAnchor="380.0" AnchorPane.rightAnchor="425.0" />
+            <Rectangle fx:id="card12" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="125.0" layoutX="425.0" layoutY="212.0" stroke="BLACK" strokeType="INSIDE" width="100.0" AnchorPane.bottomAnchor="380.0" />
+            <Rectangle fx:id="card13" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="125.0" layoutX="580.0" layoutY="212.0" stroke="BLACK" strokeType="INSIDE" width="100.0" AnchorPane.bottomAnchor="380.0" />
+            <Rectangle fx:id="card20" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="125.0" layoutX="120.0" layoutY="414.0" stroke="BLACK" strokeType="INSIDE" width="100.0" AnchorPane.bottomAnchor="205.0" />
+            <Rectangle fx:id="card21" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="125.0" layoutX="275.0" layoutY="389.0" stroke="BLACK" strokeType="INSIDE" width="100.0" AnchorPane.bottomAnchor="205.0" />
+            <Rectangle fx:id="card22" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="125.0" layoutX="425.0" layoutY="389.0" stroke="BLACK" strokeType="INSIDE" width="100.0" AnchorPane.bottomAnchor="205.0" />
+            <Rectangle fx:id="card23" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="125.0" layoutX="580.0" layoutY="389.0" stroke="BLACK" strokeType="INSIDE" width="100.0" AnchorPane.bottomAnchor="205.0" />
+            <Rectangle fx:id="card30" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="125.0" layoutX="120.0" layoutY="560.0" stroke="BLACK" strokeType="INSIDE" width="100.0" AnchorPane.bottomAnchor="40.0" />
+            <Rectangle fx:id="card31" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="125.0" layoutX="275.0" layoutY="560.0" stroke="BLACK" strokeType="INSIDE" width="100.0" AnchorPane.bottomAnchor="40.0" />
+            <Rectangle fx:id="card32" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="125.0" layoutX="425.0" layoutY="566.0" stroke="BLACK" strokeType="INSIDE" width="100.0" AnchorPane.bottomAnchor="40.0" />
+            <Rectangle fx:id="card33" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="125.0" layoutX="580.0" layoutY="560.0" stroke="BLACK" strokeType="INSIDE" width="100.0" AnchorPane.bottomAnchor="40.0" />
+            <Text fx:id="player1" layoutX="120.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jugador 1">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Text>
+            <Text fx:id="player2" layoutX="536.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jugador 2">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Text>
          </children>
       </AnchorPane>
    </children>
