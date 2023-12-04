@@ -168,12 +168,10 @@ public class Memory extends WebSocketServer {
                                 if (p.getTurn()) {
                                     p.sumPoints();
                                 }
-                                p.setTurn();
                             }
                             for (Player p : game.getPlayers()) {
                                 sendGameStatus(p, game.getEnemy(p.getId()), getClientById(p.getId()));
                             }
-
                         } else {
                             // Wait 2 seconds and unflip the cards
                             Thread.sleep(2000);
