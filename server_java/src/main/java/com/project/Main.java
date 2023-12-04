@@ -14,19 +14,19 @@ import java.util.Enumeration;
 
     Client to server:
         - Connection posibilities:
-            ~ Create game       { "type": "createGame" }
-            ~ Join game         { "type": "joinGame", "gameID": "gameID"}            
-        - Focus card            { "type": "markCard", "gameID": "gameID", "index": [row, col] }            
-        - Select card           { "type": "flipCard", "gameID": "gameID", "index": [row, col] }
+            ~ Create game       { "type": "createGame", "name": "playerName" }
+            ~ Join game         { "type": "joinGame", "gameID": "gameID", "name": "playerName"}            
+        !- Focus card           { "type": "markCard", "gameID": "gameID", "index": [row, col] }!            
+        - Select card           { "type": "flipCard", "gameID": "gameID", "row": id, "col": id }
     
     Server to client:
         + Error missage         { "type": "error", "value": "Show error list" }
-        + Connection            { "type": "conn", "usrID": "usrID" }
+        !+ Connection           { "type": "conn", "usrID": "usrID" }!
         + Create game           { "type": "gameCreated", "gameID": "gameID" }
-        + Send status           { "type": "gameSatus", "enemiID": "ID", "turn": "playerTurn", "playerPoints": "num", "enemiPoints": "num" }
-        - Focus card            { "type": "markCard", "card": "cardName", "index": [row, col] }
-        - Select card           { "type": "flipCard", "card": "cardName", "index": [row, col] }
-        - Cards worng           { "type": "wrongCards", "card0": "cardName", "index0": [row, col], "card1": "cardName", "index1": [row, col] }    
+        + Send status           { "type": "gameStatus", "enemyID": "ID", "enemyName": "playerName", "turn": "playerTurn", "playerPoints": "num", "enemiPoints": "num" }
+        !- Focus card           { "type": "markCard", "card": "cardName", "index": [row, col] }!
+        - Select card           { "type": "flipCard", "card": "cardName", "row": id, "col": id }
+        - Cards worng           { "type": "wrongCards", "card0": "cardName", "row0": id, "col0": id, "card1": "cardName", "row1": id, "col1": id }    
 
     Error list:
         - Game id wrong         201

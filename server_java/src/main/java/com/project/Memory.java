@@ -54,12 +54,6 @@ public class Memory extends WebSocketServer {
         // Take the usrID
         String clientId = getConnectionId(conn);
 
-        // Send the usrID to him
-        JSONObject objWlc = new JSONObject("{}");
-        objWlc.put("type", "conn");
-        objWlc.put("usrID", clientId);
-        conn.send(objWlc.toString());
-
         // Show the new conexion onthe server terminal
         String host = conn.getRemoteSocketAddress().getAddress().getHostAddress();
         System.out.println("New client (" + clientId + "): " + host);
@@ -73,7 +67,7 @@ public class Memory extends WebSocketServer {
             JSONObject objRequest = new JSONObject(message);
             String type = objRequest.getString("type");
 
-            if (type.equalsIgnoreCase("creategame")) {
+            if (type.equals("createGame")) {
                 boolean stop = false;
                 Random rnd = new Random();
                 Integer id = 0;
@@ -89,7 +83,7 @@ public class Memory extends WebSocketServer {
                 }
 
                 Game g = new Game(id.toString());
-                Player p = new Player(clientId);
+                Player p = new Player(clientId, objRequest.getString("name"));
 
                 p.setTurn();
                 g.addPlayer(p, g.getPlayersNumber());
@@ -103,7 +97,7 @@ public class Memory extends WebSocketServer {
 
                 System.out.println("Game " + g.getId() + " created succesfully.");
 
-            } else if (type.equalsIgnoreCase("joingame")) {
+            } else if (type.equals("joinGame")) {
                 String joinID = objRequest.getString("gameID");
                 boolean idExist = false;
 
@@ -113,7 +107,7 @@ public class Memory extends WebSocketServer {
                     if (g.getId().equals(joinID) & g.getPlayersNumber() < 2) {
                         idExist = true;
                         // Add the second player to the game class
-                        g.addPlayer(new Player(clientId), g.getPlayersNumber());
+                        g.addPlayer(new Player(clientId, objRequest.getString("name")), g.getPlayersNumber());
 
                         // Complete the players info and send to him his game status
                         for (Player p : g.getPlayers()) {
@@ -133,9 +127,67 @@ public class Memory extends WebSocketServer {
                     System.out.println("El usuario a mandado un ID erroneo o la sala estaba llena");
                 }
 
-            } else if (type.equalsIgnoreCase("markcard")) {
+            } else if (type.equals("flipCard")) {
+                Game game = null;
 
-            } else if (type.equalsIgnoreCase("flipcard")) {
+                for (Game g : games) {
+                    if (g.getId().equals(objRequest.getString("gameID")))
+                        game = g;
+                }
+
+                // Check if it's the first or the second card
+                if (game.getFlipedCardsCount() < 2) {
+                    // Get the color of the card
+                    String card = game.getCard(objRequest.getInt("row"), objRequest.getInt("col"));
+
+                    JSONObject objCln = new JSONObject("{}");
+                    objCln.put("type", "flipCard");
+                    objCln.put("card", card);
+                    objCln.put("row", objRequest.getInt("row"));
+                    objCln.put("col", objRequest.getInt("col"));
+
+                    // Send the card to both players
+                    for (Player p : game.getPlayers()) {
+                        getClientById(p.getId()).send(objCln.toString());
+                    }
+
+                    game.addFlipedCards(objRequest.getInt("row"), objRequest.getInt("col"),
+                            game.getFlipedCardsCount());
+
+                    if (game.getFlipedCardsCount() == 2) {
+                        if ((game.checkFlipedCards())) {
+                            // Send and set stats to both players
+                            for (Player p : game.getPlayers()) {
+                                if (p.getTurn()) {
+                                    p.sumPoints();
+                                }
+                            }
+                            for (Player p : game.getPlayers()) {
+                                sendGameStatus(p, game.getEnemy(p.getId()), getClientById(p.getId()));
+                            }
+
+                        } else {
+                            // Wait 2 seconds and unflip the cards
+                            Thread.sleep(2000);
+                            JSONObject objJSON = new JSONObject("{}");
+                            objJSON.put("type", "wrongCards");
+                            objJSON.put("card0",
+                                    game.getCard(game.getFlipedCards()[0][0], game.getFlipedCards()[0][1]));
+                            objJSON.put("row0", game.getFlipedCards()[0][0]);
+                            objJSON.put("col0", game.getFlipedCards()[0][1]);
+                            objJSON.put("card1",
+                                    game.getCard(game.getFlipedCards()[1][0], game.getFlipedCards()[1][1]));
+                            objJSON.put("row0", game.getFlipedCards()[1][0]);
+                            objJSON.put("col0", game.getFlipedCards()[1][1]);
+                            for (Player p : game.getPlayers()) {
+                                getClientById(p.getId()).send(objJSON.toString());
+                            }
+                        }
+                    }
+
+                } else {
+                    // TODO mensaje de error
+                }
 
             }
 
@@ -171,8 +223,9 @@ public class Memory extends WebSocketServer {
 
     public void sendGameStatus(Player usr, Player enemy, WebSocket conn) {
         JSONObject objResponse = new JSONObject("{}");
-        objResponse.put("type", "gameSatus");
+        objResponse.put("type", "gameStatus");
         objResponse.put("enemyID", usr.getEnemyID());
+        objResponse.put("enemyName", usr.getEnemyName());
         objResponse.put("turn", usr.getTurn());
         objResponse.put("playerPoints", usr.getPoints());
         objResponse.put("enemyPoints", enemy.getPoints());

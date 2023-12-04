@@ -11,7 +11,7 @@ public class Game {
 
     public Game(String id) {
         this.id = id;
-        cards = createCartsMatrix();
+        cards = createCardsMatrix();
         players = new Player[2];
         flipedCards = new int[2][2];
         flipedCards[0][0] = -1;
@@ -41,9 +41,9 @@ public class Game {
     public int getFlipedCardsCount() {
         int count = 0;
 
-        if (flipedCards[0][0] == -1)
+        if (flipedCards[0][0] != -1)
             count++;
-        if (flipedCards[1][0] == -1)
+        if (flipedCards[1][0] != -1)
             count++;
 
         return count;
@@ -79,6 +79,22 @@ public class Game {
         flipedCards[index][1] = col;
     }
 
+    public boolean checkFlipedCards() {
+        boolean correct = false;
+
+        int row0 = flipedCards[0][0];
+        int col0 = flipedCards[0][1];
+        int row1 = flipedCards[1][0];
+        int col1 = flipedCards[1][1];
+
+        String card1 = getCard(row0, col0);
+        String card2 = getCard(row1, col1);
+
+        if (card1.equals(card2)) correct = true;
+
+        return correct;
+    }
+
     public void clearFlipedCards() {
         flipedCards[0][0] = -1;
         flipedCards[0][1] = -1;
@@ -86,7 +102,7 @@ public class Game {
         flipedCards[1][1] = -1;
     }
 
-    private String[][] createCartsMatrix() {
+    private String[][] createCardsMatrix() {
         String[][] cards = new String[4][4];
 
         String[] options = { "blue", "blue", "green", "green", "yellow", "yellow", "pink", "pink", "orange", "orange",

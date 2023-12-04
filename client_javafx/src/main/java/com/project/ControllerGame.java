@@ -8,14 +8,14 @@ import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ControllerGame {
 
     @FXML
-    private Rectangle card00, card01, card02, card03, card10, card11, card12, card13, card20, card21, card22, card23, card30, card31, card32, card33;
+    private Rectangle card00, card01, card02, card03, card10, card11, card12, card13, card20, card21, card22, card23,
+            card30, card31, card32, card33;
     @FXML
     private Text player1, player2;
     // Create a map to keep track of color assignments
@@ -24,35 +24,43 @@ public class ControllerGame {
 
     public void initialize() {
         // Creamos la lista de colores
-        ArrayList<Color> colors = new ArrayList<>() {{{
-            add(Color.RED);
-            add(Color.BLUE);
-            add(Color.GREEN);
-            add(Color.YELLOW);
-            add(Color.PURPLE);
-            add(Color.ORANGE);
-            add(Color.PINK);
-            add(Color.BROWN);
-        }}};
+        ArrayList<Color> colors = new ArrayList<>() {
+            {
+                {
+                    add(Color.RED);
+                    add(Color.BLUE);
+                    add(Color.GREEN);
+                    add(Color.YELLOW);
+                    add(Color.PURPLE);
+                    add(Color.ORANGE);
+                    add(Color.PINK);
+                    add(Color.BROWN);
+                }
+            }
+        };
         // Creamos la lista de cartas
-        ArrayList<Rectangle> cards = new ArrayList<>() {{{
-            add(card00);
-            add(card01);
-            add(card02);
-            add(card03);
-            add(card10);
-            add(card11);
-            add(card12);
-            add(card13);
-            add(card20);
-            add(card21);
-            add(card22);
-            add(card23);
-            add(card30);
-            add(card31);
-            add(card32);
-            add(card33);
-        }}};
+        ArrayList<Rectangle> cards = new ArrayList<>() {
+            {
+                {
+                    add(card00);
+                    add(card01);
+                    add(card02);
+                    add(card03);
+                    add(card10);
+                    add(card11);
+                    add(card12);
+                    add(card13);
+                    add(card20);
+                    add(card21);
+                    add(card22);
+                    add(card23);
+                    add(card30);
+                    add(card31);
+                    add(card32);
+                    add(card33);
+                }
+            }
+        };
         // Asignamos los colores a las cartas
         for (Rectangle card : cards) {
             Color color;
@@ -65,13 +73,13 @@ public class ControllerGame {
                 if (!colorCounter.containsKey(color)) {
                     colorCounter.put(color, 1);
                     cardsColors.put(card, color);
-                    //card.setFill(color);
+                    // card.setFill(color);
                     painted = true;
                 } else {
                     int count = colorCounter.get(color);
                     if (count < 2) {
                         colorCounter.put(color, count + 1);
-                        //card.setFill(color);
+                        // card.setFill(color);
                         cardsColors.put(card, color);
                         painted = true;
                         break;
@@ -80,6 +88,7 @@ public class ControllerGame {
             }
         }
     }
+
     // Metodo para voltear la carta y ver su color asignado
     @FXML
     public void clicked(Rectangle card) {
@@ -92,7 +101,7 @@ public class ControllerGame {
             card.setFill(Color.SILVER);
         }
         // Rotar la carta con animacion
-        rotateTransition.play();    
+        rotateTransition.play();
     }
 
 }
