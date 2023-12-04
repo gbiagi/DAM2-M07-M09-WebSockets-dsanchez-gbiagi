@@ -24,7 +24,10 @@ public class ServerClient extends WebSocketClient {
             JSONObject objRequest = new JSONObject(message);
             String type = objRequest.getString("type");
             switch (type) {
-                case "gameCreated" -> appData.setGameID(objRequest.getString("gameID"));
+                case "gameCreated" -> {
+                    appData.setGameID(objRequest.getString("gameID"));
+                    ControllerGame.pantallaInicio(appData.getPlayer1(), appData.getPlayer2(), appData.getPoints2());
+                }
                 case "gameStatus" -> {
                     appData.setEnemyID(objRequest.getString("enemyID"));
                     appData.setEnemyName(objRequest.getString("enemyName"));
@@ -32,6 +35,8 @@ public class ServerClient extends WebSocketClient {
                     appData.setPlayerPoints(objRequest.getInt("playerPoints"));
                     appData.setEnemyPoints(objRequest.getInt("enemyPoints"));
                     System.out.println(appData.getPlayerStats());
+                    ControllerGame.pintarDatosPartida(appData.getPlayer1(), appData.getPoints1(), appData.getPlayer2(),
+                            appData.getPoints2());
                 }
                 case "flipCard" -> {
                     String cardColor = objRequest.getString("card");

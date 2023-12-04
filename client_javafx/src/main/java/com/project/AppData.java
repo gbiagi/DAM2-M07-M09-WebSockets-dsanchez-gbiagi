@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
 public class AppData {
     private static final AppData instance = new AppData();
@@ -16,12 +17,16 @@ public class AppData {
     private int playerPoints;
     private int enemyPoints;
     private Rectangle[][] cards;
+    private Text player1;
+    private Text player2;
+    private Text points1;
+    private Text points2;
 
     private AppData() {
         cards = new Rectangle[4][4];
         serverClient = null;
-        playerName = "";
-        gameID = "";
+        playerName = "Pepe";
+        gameID = "131";
         enemyName = "";
         enemyID = "";
         turn = false;
@@ -97,22 +102,50 @@ public class AppData {
         this.enemyPoints = enemyPoints;
     }
 
+    public void setPlayer1(Text player1) {
+        this.player1 = player1;
+    }
+
+    public void setPlayer2(Text player2) {
+        this.player2 = player2;
+    }
+
+    public void setPoints1(Text points1) {
+        this.points1 = points1;
+    }
+
+    public void setPoints2(Text points2) {
+        this.points2 = points2;
+    }
+
+    public Text getPlayer1() {
+        return player1;
+    }
+
+    public Text getPlayer2() {
+        return player2;
+    }
+
+    public Text getPoints1() {
+        return points1;
+    }
+
+    public Text getPoints2() {
+        return points2;
+    }
+
     public Color getColor(String color, int row, int col) {
 
         return null;
     }
 
     public void fillCardMatrix(ArrayList<Rectangle> cardsArray) {
-        for (Rectangle card: cardsArray) {
+        for (Rectangle card : cardsArray) {
             int row = Integer.parseInt(card.getId().substring(4, 5));
             int col = Integer.parseInt(card.getId().substring(5, 6));
             cards[row][col] = card;
         }
-        // for (int row = 0; row < 4; row++) {
-        //     for (int col = 0; col < 4; col++) {
-        //         cards[row][col] = cardsArray.get(col + row);
-        //     }
-        // }
+
     }
 
     public Rectangle getCard(int row, int col) {
@@ -135,15 +168,6 @@ public class AppData {
         return null;
     }
 
-    /*
-     * playerName = "";
-     * gameID = "";
-     * enemyName = "";
-     * enemyID = "";
-     * turn = false;
-     * playerPoints = 0;
-     * enemyPoints = 0;
-     */
     public String getPlayerStats() {
         String player = playerName + ": " + playerPoints + " " + turn + " " + gameID;
 
