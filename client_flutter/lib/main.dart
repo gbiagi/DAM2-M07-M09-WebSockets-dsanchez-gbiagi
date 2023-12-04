@@ -1,5 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
-
+import 'package:web_socket_channel/io.dart';
 import 'package:client_flutter/memoryGame.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
@@ -14,21 +15,49 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController portController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
 
+  String _serverIp = '';
+  final String _serverPort = '8888';
+
+  IOWebSocketChannel? _channel;
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  void _connectToServer() {
+    if (serverController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Ingrese una dirección IP válida')));
+      return;
+    }
+    _serverIp = serverController.text;
+    String server = "ws://$_serverIp:$_serverPort";
+    _channel = IOWebSocketChannel.connect(server);
+    Future.delayed(const Duration(seconds: 2));
+  }
+
+  void _sendMessage(String mensaje) {
+    if (_channel != null) {
+      final message = {
+        'type': 'message',
+        'value': mensaje,
+        'format': 'text',
+      };
+      _channel!.sink.add(jsonEncode(message));
+    }
+  }
 
   void _onConnectPressed() {
     if (_formKey.currentState!.validate()) {
       // Validation passed, proceed with connection logic
-      String server = serverController.text;
-      String port = portController.text;
-      String name = nameController.text;
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MemoryGame(),
-        ),
-      );
+      _connectToServer();
+      if (_channel != null) {
+        _sendMessage(nameController.text);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MemoryGame(),
+          ),
+        );
+      }
     }
   }
 
@@ -149,6 +178,6 @@ void main() async {
 
 // Show the window when it's ready
 void showWindow(_) async {
-  windowManager.setMinimumSize(const Size(300.0, 600.0));
+  windowManager.setMinimumSize(const Size(800.0, 1000.0));
   await windowManager.setTitle('App');
 }

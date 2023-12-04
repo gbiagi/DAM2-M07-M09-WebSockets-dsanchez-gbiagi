@@ -7,7 +7,8 @@ class MemoryGame extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Flutter Widget Example'),
+          title: Text('Memory'),
+          centerTitle: true,
         ),
         body: MyWidget(),
       ),
@@ -31,9 +32,10 @@ class MyWidget extends StatelessWidget {
             Text('Right Text'),
           ],
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Container(
-          padding: EdgeInsets.only(left: 250, right: 250, top: 5, bottom: 0),
+          padding:
+              const EdgeInsets.only(left: 250, right: 250, top: 5, bottom: 0),
           child: GridView.builder(
             shrinkWrap: true,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
