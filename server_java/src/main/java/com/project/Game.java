@@ -88,7 +88,8 @@ public class Game {
         String card1 = getCard(row0, col0);
         String card2 = getCard(row1, col1);
 
-        if (card1.equals(card2)) correct = true;
+        if (card1.equals(card2))
+            correct = true;
 
         return correct;
     }
@@ -114,12 +115,13 @@ public class Game {
         for (String opt : options) {
             stop = false;
             while (!stop) {
-
                 colIndex = rnd.nextInt(4);
                 rowIndex = rnd.nextInt(4);
 
-                if (cards[rowIndex][colIndex] == null)
+                if (cards[rowIndex][colIndex] == null) {
                     cards[rowIndex][colIndex] = opt;
+                    stop = true;
+                }
             }
         }
         return cards;

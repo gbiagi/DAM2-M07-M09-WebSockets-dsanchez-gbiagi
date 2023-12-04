@@ -1,4 +1,5 @@
 package com.project;
+
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONException;
@@ -6,7 +7,7 @@ import org.json.JSONObject;
 
 import java.net.URI;
 
-public class ServerClient extends WebSocketClient{
+public class ServerClient extends WebSocketClient {
     public ServerClient(URI serverUri) {
         super(serverUri);
     }
@@ -15,6 +16,7 @@ public class ServerClient extends WebSocketClient{
     public void onOpen(ServerHandshake handshakedata) {
 
     }
+
     @Override
     public void onMessage(String message) {
         AppData appData = AppData.getInstance();
@@ -29,13 +31,22 @@ public class ServerClient extends WebSocketClient{
                     appData.setTurn(objRequest.getBoolean("turn"));
                     appData.setPlayerPoints(objRequest.getInt("playerPoints"));
                     appData.setEnemyPoints(objRequest.getInt("enemyPoints"));
+                    System.out.println(appData.getPlayerStats());
                 }
                 case "flipCard" -> {
                     String cardColor = objRequest.getString("card");
                     int row = objRequest.getInt("row");
-                    int col = objRequest.getInt("col");}
-
-                case "wrongCards" -> objRequest.getString("card");
+                    int col = objRequest.getInt("col");
+                    ControllerGame.cambioColor(appData.getCard(row, col), cardColor);
+                }
+                case "wrongCards" -> {
+                    int row0 = objRequest.getInt("row0");
+                    int col0 = objRequest.getInt("col0");
+                    int row1 = objRequest.getInt("row1");
+                    int col1 = objRequest.getInt("col1");
+                    ControllerGame.cambioColor(appData.getCard(row0, col0), "silver");
+                    ControllerGame.cambioColor(appData.getCard(row1, col1), "silver");
+                }
                 default -> System.out.println("Error: type not found");
             }
         } catch (JSONException e) {
@@ -47,6 +58,7 @@ public class ServerClient extends WebSocketClient{
     public void onClose(int code, String reason, boolean remote) {
 
     }
+
     @Override
     public void onError(Exception ex) {
 

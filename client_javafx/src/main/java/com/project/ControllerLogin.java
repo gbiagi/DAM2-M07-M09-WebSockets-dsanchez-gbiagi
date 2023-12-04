@@ -23,8 +23,8 @@ public class ControllerLogin {
         String server = inputServer.getText();
         String port = inputPort.getText();
         String name = inputName.getText();
-        String ip = server + ":" + port;
         appData.setServerClient(connectWebSocket(server, port));
+        appData.getServerClient().connect();
         appData.setPlayerName(name);
         UtilsViews.setView("SetMatch");
     }
@@ -32,7 +32,7 @@ public class ControllerLogin {
     private ServerClient connectWebSocket(String ip, String port) {
         URI uri;
         try {
-            uri = new URI("ws://"+ip+":"+port+"/websocket");
+            uri = new URI("ws://" + ip + ":" + port + "/websocket");
         } catch (URISyntaxException e) {
             e.printStackTrace();
             return null;

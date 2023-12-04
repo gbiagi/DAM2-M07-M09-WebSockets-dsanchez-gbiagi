@@ -1,6 +1,9 @@
 package com.project;
 
+import java.util.ArrayList;
+
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 public class AppData {
     private static final AppData instance = new AppData();
@@ -12,8 +15,10 @@ public class AppData {
     private Boolean turn;
     private int playerPoints;
     private int enemyPoints;
+    private Rectangle[][] cards;
 
     private AppData() {
+        cards = new Rectangle[4][4];
         serverClient = null;
         playerName = "";
         gameID = "";
@@ -31,6 +36,7 @@ public class AppData {
     public void setServerClient(ServerClient serverClient) {
         this.serverClient = serverClient;
     }
+
     public static AppData getInstance() {
         return instance;
     }
@@ -42,9 +48,11 @@ public class AppData {
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
+
     public String getGameID() {
         return gameID;
     }
+
     public void setGameID(String gameID) {
         this.gameID = gameID;
     }
@@ -92,5 +100,48 @@ public class AppData {
     public Color getColor(String color, int row, int col) {
 
         return null;
+    }
+
+    public void fillCardMatrix(ArrayList<Rectangle> cardsArray) {
+        for (int row = 0; row < 4; row++) {
+            for (int col = 0; col < 4; col++) {
+                cards[row][col] = cardsArray.get(col + row);
+            }
+        }
+    }
+
+    public Rectangle getCard(int row, int col) {
+        return cards[row][col];
+    }
+
+    public int[] getIndex(Rectangle card) {
+        int[] index = new int[2];
+
+        for (int row = 0; row < 4; row++) {
+            for (int col = 0; col < 4; col++) {
+                if (cards[row][col].equals(card)) {
+                    index[0] = row;
+                    index[1] = col;
+                    return index;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /*
+     * playerName = "";
+     * gameID = "";
+     * enemyName = "";
+     * enemyID = "";
+     * turn = false;
+     * playerPoints = 0;
+     * enemyPoints = 0;
+     */
+    public String getPlayerStats() {
+        String player = playerName + ": " + playerPoints + " " + turn + " " + gameID;
+
+        return player;
     }
 }

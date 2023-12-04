@@ -68,6 +68,7 @@ public class Memory extends WebSocketServer {
             String type = objRequest.getString("type");
 
             if (type.equals("createGame")) {
+                String name = objRequest.getString("name");
                 boolean stop = false;
                 Random rnd = new Random();
                 Integer id = 0;
@@ -83,11 +84,13 @@ public class Memory extends WebSocketServer {
                 }
 
                 Game g = new Game(id.toString());
-                Player p = new Player(clientId, objRequest.getString("name"));
+                Player p = new Player(clientId, name);
+                System.out.println("Player: " + name + " has created the room \"" + id + "\"");
 
                 p.setTurn();
                 g.addPlayer(p, g.getPlayersNumber());
                 games.add(g);
+                System.out.println("Game created successfully");
 
                 // Send the game ID to the usr
                 JSONObject objCln = new JSONObject("{}");
@@ -95,23 +98,26 @@ public class Memory extends WebSocketServer {
                 objCln.put("gameID", g.getId());
                 conn.send(objCln.toString());
 
-                System.out.println("Game " + g.getId() + " created succesfully.");
-
             } else if (type.equals("joinGame")) {
                 String joinID = objRequest.getString("gameID");
+                String name = objRequest.getString("name");
                 boolean idExist = false;
+
+                System.out.println("Player " + name + " is joining game " + joinID);
 
                 // Loock in the games list to found the game
                 // Check if the game exist and if its not complete
                 for (Game g : games) {
                     if (g.getId().equals(joinID) & g.getPlayersNumber() < 2) {
+                        System.out.println("Game started!");
                         idExist = true;
                         // Add the second player to the game class
-                        g.addPlayer(new Player(clientId, objRequest.getString("name")), g.getPlayersNumber());
+                        g.addPlayer(new Player(clientId, name), g.getPlayersNumber());
 
                         // Complete the players info and send to him his game status
                         for (Player p : g.getPlayers()) {
                             p.setEnemyID(g.getEnemy(p.getId()).getId());
+                            p.setEnemyName(g.getEnemy(p.getId()).getName());
                             sendGameStatus(p, g.getEnemy(p.getId()), getClientById(p.getId()));
                         }
                     }
@@ -129,6 +135,7 @@ public class Memory extends WebSocketServer {
 
             } else if (type.equals("flipCard")) {
                 Game game = null;
+                System.out.println("Girando carta");
 
                 for (Game g : games) {
                     if (g.getId().equals(objRequest.getString("gameID")))
@@ -161,6 +168,7 @@ public class Memory extends WebSocketServer {
                                 if (p.getTurn()) {
                                     p.sumPoints();
                                 }
+                                p.setTurn();
                             }
                             for (Player p : game.getPlayers()) {
                                 sendGameStatus(p, game.getEnemy(p.getId()), getClientById(p.getId()));
@@ -171,22 +179,16 @@ public class Memory extends WebSocketServer {
                             Thread.sleep(2000);
                             JSONObject objJSON = new JSONObject("{}");
                             objJSON.put("type", "wrongCards");
-                            objJSON.put("card0",
-                                    game.getCard(game.getFlipedCards()[0][0], game.getFlipedCards()[0][1]));
                             objJSON.put("row0", game.getFlipedCards()[0][0]);
                             objJSON.put("col0", game.getFlipedCards()[0][1]);
-                            objJSON.put("card1",
-                                    game.getCard(game.getFlipedCards()[1][0], game.getFlipedCards()[1][1]));
-                            objJSON.put("row0", game.getFlipedCards()[1][0]);
-                            objJSON.put("col0", game.getFlipedCards()[1][1]);
+                            objJSON.put("row1", game.getFlipedCards()[1][0]);
+                            objJSON.put("col1", game.getFlipedCards()[1][1]);
                             for (Player p : game.getPlayers()) {
                                 getClientById(p.getId()).send(objJSON.toString());
                             }
                         }
                     }
 
-                } else {
-                    // TODO mensaje de error
                 }
 
             }
