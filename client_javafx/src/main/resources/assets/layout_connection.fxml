@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.ControllerLogin">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.ControllerRoom">
    <children>
       <AnchorPane prefHeight="50.0" prefWidth="800.0" style="-fx-background-color: limegreen;" AnchorPane.bottomAnchor="750.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -28,7 +28,7 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="inputServer" layoutX="125.0" layoutY="75.0" prefWidth="250.0" promptText="Id de la partida">
+                  <TextField fx:id="inputPartida" layoutX="125.0" layoutY="75.0" prefWidth="250.0" promptText="Id de la partida">
                      <font>
                         <Font size="18.0" />
                      </font>

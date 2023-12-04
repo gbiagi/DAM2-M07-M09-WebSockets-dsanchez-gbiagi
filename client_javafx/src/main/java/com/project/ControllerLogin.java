@@ -4,6 +4,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 public class ControllerLogin {
     @FXML
     private Button buttonConectar;
@@ -16,7 +19,24 @@ public class ControllerLogin {
     }
 
     private void loginServer() {
-        UtilsViews.setView("Game");
+        AppData appData = AppData.getInstance();
+        String server = inputServer.getText();
+        String port = inputPort.getText();
+        String name = inputName.getText();
+        String ip = server + ":" + port;
+        appData.setServerClient(connectWebSocket(server, port));
+        appData.setPlayerName(name);
+        UtilsViews.setView("SetMatch");
+    }
 
+    private ServerClient connectWebSocket(String ip, String port) {
+        URI uri;
+        try {
+            uri = new URI("ws://"+ip+":"+port+"/websocket");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return new ServerClient(uri);
     }
 }

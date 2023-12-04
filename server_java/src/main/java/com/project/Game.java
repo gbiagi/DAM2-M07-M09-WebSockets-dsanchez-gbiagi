@@ -56,7 +56,6 @@ public class Game {
             if (p != null)
                 count++;
         }
-
         return count;
     }
 
@@ -66,7 +65,6 @@ public class Game {
                 return p;
             }
         }
-
         return null;
     }
 
@@ -107,18 +105,14 @@ public class Game {
 
         String[] options = { "blue", "blue", "green", "green", "yellow", "yellow", "pink", "pink", "orange", "orange",
                 "red", "red", "brown", "brown", "purple", "purple" };
-
         boolean stop;
-
         Random rnd = new Random();
 
         int colIndex = 0;
         int rowIndex = 0;
 
         for (String opt : options) {
-
             stop = false;
-
             while (!stop) {
 
                 colIndex = rnd.nextInt(4);
@@ -126,11 +120,8 @@ public class Game {
 
                 if (cards[rowIndex][colIndex] == null)
                     cards[rowIndex][colIndex] = opt;
-
             }
-
         }
-
         return cards;
     }
 }

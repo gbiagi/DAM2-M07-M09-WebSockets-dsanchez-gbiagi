@@ -6,7 +6,6 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-
     public static void main(String[] args) {
 
         // Iniciar app JavaFX   
@@ -21,6 +20,7 @@ public class Main extends Application {
         try {
             //UtilsViews.parentContainer.setStyle("-fx-font: 14 arial;");
             UtilsViews.addView(getClass(), "Login", "/assets/layout_login.fxml");
+            UtilsViews.addView(getClass(), "SetMatch", "/assets/layout_connection.fxml");
             UtilsViews.addView(getClass(), "Game", "/assets/layout_partida.fxml");
         } catch (Exception e) {e.printStackTrace();}
 
