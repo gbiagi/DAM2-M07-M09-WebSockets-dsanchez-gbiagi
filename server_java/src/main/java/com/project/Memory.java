@@ -185,8 +185,13 @@ public class Memory extends WebSocketServer {
                             objJSON.put("col1", game.getFlipedCards()[1][1]);
                             for (Player p : game.getPlayers()) {
                                 getClientById(p.getId()).send(objJSON.toString());
+                                p.setTurn();
+                            }
+                            for (Player p : game.getPlayers()) {
+                                sendGameStatus(p, game.getEnemy(p.getId()), getClientById(p.getId()));
                             }
                         }
+                        game.clearFlipedCards();
                     }
 
                 }
