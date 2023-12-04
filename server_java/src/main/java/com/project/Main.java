@@ -13,20 +13,20 @@ import java.util.Enumeration;
     WebSocket messages:
 
     Client to server:
-        - Connection possibilities:
-            ~ Create game       { "type": "createGame" }
-            ~ Join game         { "type": "joinGame", "gameID": "gameID"}            
-        - Focus card            { "type": "markCard", "gameID": "gameID", "row": numRow, "col": numCol }
-        - Select card           { "type": "flipCard", "gameID": "gameID", "row": numRow, "col": numCol }
+        - Connection posibilities:
+            ~ Create game       { "type": "createGame", "name": "playerName" }
+            ~ Join game         { "type": "joinGame", "gameID": "gameID", "name": "playerName"}            
+        !- Focus card           { "type": "markCard", "gameID": "gameID", "index": [row, col] }!            
+        - Select card           { "type": "flipCard", "gameID": "gameID", "row": id, "col": id }
     
     Server to client:
-        + Error message         { "type": "error", "value": "Show error list" }
-        + Connection            { "type": "conn", "usrID": "usrID" }
+        + Error missage         { "type": "error", "value": "Show error list" }
+        !+ Connection           { "type": "conn", "usrID": "usrID" }!
         + Create game           { "type": "gameCreated", "gameID": "gameID" }
-        + Send status           { "type": "gameStatus", "enemyID": "ID", "turn": "playerTurn", "playerPoints": "num", "enemyPoints": "num" }
-        - Focus card            { "type": "markCard", "card": "cardName", "row": numRow, "col": numCol }
-        - Select card           { "type": "flipCard", "card": "cardName", "row": numRow, "col": numCol }
-        - Cards wrong           { "type": "wrongCards", "card0": "cardName", "row0": numRow0, "col0": numCol0, "card1": "cardName", "row1": numRow1, "col1": numCol1 }
+        + Send status           { "type": "gameStatus", "enemyID": "ID", "enemyName": "playerName", "turn": "playerTurn", "playerPoints": "num", "enemiPoints": "num" }
+        !- Focus card           { "type": "markCard", "card": "cardName", "index": [row, col] }!
+        - Select card           { "type": "flipCard", "card": "cardName", "row": id, "col": id }
+        - Cards worng           { "type": "wrongCards", "card0": "cardName", "row0": id, "col0": id, "card1": "cardName", "row1": id, "col1": id }    
 
     Error list:
         - Game id wrong         201

@@ -48,7 +48,7 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="inputNom" layoutX="125.0" layoutY="275.0" prefWidth="250.0" promptText="Manolo">
+                  <TextField fx:id="inputName" layoutX="125.0" layoutY="275.0" prefWidth="250.0" promptText="Manolo">
                      <font>
                         <Font size="18.0" />
                      </font>

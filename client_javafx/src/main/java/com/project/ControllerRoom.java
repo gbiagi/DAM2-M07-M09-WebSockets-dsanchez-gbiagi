@@ -25,12 +25,14 @@ public class ControllerRoom {
         AppData.getInstance().getServerClient().send(obj.toString());
         UtilsViews.setView("Game");
     }
+
     private void joinRoom() {
         JSONObject obj = new JSONObject("{}");
         obj.put("type", "joinGame");
         obj.put("gameID", inputPartida.getText());
         AppData.getInstance().setGameID(inputPartida.getText());
         obj.put("name", AppData.getInstance().getPlayerName());
+        AppData.getInstance().getServerClient().send(obj.toString());
         UtilsViews.setView("Game");
     }
 }

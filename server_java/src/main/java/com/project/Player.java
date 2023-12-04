@@ -2,12 +2,15 @@ package com.project;
 
 public class Player {
     private String id;
+    private String name;
     private String enemyID;
+    private String enemyName;
     private int points;
     private boolean turn;
 
-    public Player(String id) {
+    public Player(String id, String name) {
         this.id = id;
+        this.name = name;
         points = 0;
         turn = false;
     }
@@ -24,8 +27,12 @@ public class Player {
         this.enemyID = enemyID;
     }
 
-    public void sumPoints(int points) {
-        this.points += points;
+    public void setEnemyName(String enemyName) {
+        this.enemyName = enemyName;
+    }
+
+    public void sumPoints() {
+        points++;
     }
 
     public String getId() {
@@ -34,6 +41,14 @@ public class Player {
 
     public String getEnemyID() {
         return enemyID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEnemyName() {
+        return enemyName;
     }
 
     public boolean getTurn() {
