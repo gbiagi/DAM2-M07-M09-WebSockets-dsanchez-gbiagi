@@ -103,11 +103,16 @@ public class AppData {
     }
 
     public void fillCardMatrix(ArrayList<Rectangle> cardsArray) {
-        for (int row = 0; row < 4; row++) {
-            for (int col = 0; col < 4; col++) {
-                cards[row][col] = cardsArray.get(col + row);
-            }
+        for (Rectangle card: cardsArray) {
+            int row = Integer.parseInt(card.getId().substring(4, 5));
+            int col = Integer.parseInt(card.getId().substring(5, 6));
+            cards[row][col] = card;
         }
+        // for (int row = 0; row < 4; row++) {
+        //     for (int col = 0; col < 4; col++) {
+        //         cards[row][col] = cardsArray.get(col + row);
+        //     }
+        // }
     }
 
     public Rectangle getCard(int row, int col) {

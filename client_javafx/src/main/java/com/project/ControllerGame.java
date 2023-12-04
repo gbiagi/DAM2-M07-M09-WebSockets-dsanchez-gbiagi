@@ -92,7 +92,6 @@ public class ControllerGame {
 
             default -> System.out.println("Error");
         }
-
         // Rotar la carta con animacion
         rotateTransition.play();
     }
