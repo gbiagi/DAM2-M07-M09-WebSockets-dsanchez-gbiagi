@@ -32,6 +32,31 @@ class _LoginScreenState extends State<LoginScreen> {
     String server = "ws://$_serverIp:$_serverPort";
     _channel = IOWebSocketChannel.connect(server);
     Future.delayed(const Duration(seconds: 2));
+
+    _channel!.stream.listen(
+      (mensaje) {
+        final data = jsonDecode(mensaje);
+        if (data['valid'] == true) {
+          final message = {
+            'type': 'createGame',
+            'name': 'Desktop',
+          };
+          _channel!.sink.add(jsonEncode(message));
+          print("Login correcto");
+        } else if (data['valid'] == false) {
+          print("Login incorrecto");
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Usuario o contraseña incorrecta')));
+        }
+      },
+      onError: (error) {
+        print("Error: $error");
+        _channel!.sink.close();
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Error al conectar')));
+      },
+      onDone: () {},
+    );
   }
 
   void _sendMessage(String mensaje) {

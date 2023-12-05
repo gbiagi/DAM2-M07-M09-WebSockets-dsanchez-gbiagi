@@ -27,9 +27,9 @@ class MyWidget extends StatelessWidget {
         const Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Text('Left Text'),
-            Text('Middle Text'),
-            Text('Right Text'),
+            Text('Player1'),
+            Text('GameID'),
+            Text('Player2'),
           ],
         ),
         const SizedBox(height: 20),
