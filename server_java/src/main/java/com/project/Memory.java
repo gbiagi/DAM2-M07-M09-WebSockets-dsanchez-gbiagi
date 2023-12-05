@@ -105,7 +105,7 @@ public class Memory extends WebSocketServer {
 
                 System.out.println("Player " + name + " is joining game " + joinID);
 
-                // Loock in the games list to found the game
+                // Look in the games list to found the game
                 // Check if the game exist and if its not complete
                 for (Game g : games) {
                     if (g.getId().equals(joinID) & g.getPlayersNumber() < 2) {
@@ -174,7 +174,7 @@ public class Memory extends WebSocketServer {
                             }
                         } else {
                             // Wait 2 seconds and unflip the cards
-                            Thread.sleep(2000);
+                            Thread.sleep(1000);
                             JSONObject objJSON = new JSONObject("{}");
                             objJSON.put("type", "wrongCards");
                             objJSON.put("row0", game.getFlipedCards()[0][0]);

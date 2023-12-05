@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
     _channel!.stream.listen(
       (mensaje) {
         final data = jsonDecode(mensaje);
-        if (data['valid'] == true) {
+        if (data['gameCreated'] == true) {
           final message = {
             'type': 'createGame',
             'name': 'Desktop',
