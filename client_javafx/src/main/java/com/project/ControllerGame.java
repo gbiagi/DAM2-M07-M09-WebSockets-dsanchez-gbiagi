@@ -9,7 +9,6 @@ import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import org.json.JSONObject;
 
-import java.beans.EventHandler;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -19,7 +18,7 @@ public class ControllerGame {
     private Rectangle card00, card01, card02, card03, card10, card11, card12, card13, card20, card21, card22, card23,
             card30, card31, card32, card33;
     @FXML
-    private Text player1, player2;
+    private Text player1, player2, points1, points2;
     // Create a map to keep track of color assignments
     // HashMap<Color, Integer> colorCounter = new HashMap<>();
     HashMap<Rectangle, Color> cardsColors = new HashMap<>();
@@ -48,12 +47,19 @@ public class ControllerGame {
                 }
             }
         };
+
         // Pintamos las cartas de gris
         for (Rectangle card : cards) {
             card.setFill(Color.SILVER);
             card.setOnMouseClicked(e -> clicked(card));
         }
+
         AppData.getInstance().fillCardMatrix(cards);
+        AppData.getInstance().setPlayer1(player1);
+        AppData.getInstance().setPlayer2(player2);
+        AppData.getInstance().setPlayer1(player1);
+        AppData.getInstance().setPoints1(points1);
+        AppData.getInstance().setPoints2(points2);
 
     }
 
@@ -75,6 +81,12 @@ public class ControllerGame {
 
     }
 
+    public static void pantallaInicio(Text jugador, Text server, Text quitar) {
+        jugador.setText(AppData.getInstance().getPlayerName());
+        server.setText("Server: " + AppData.getInstance().getGameID());
+        quitar.setText("");
+    }
+
     public static void cambioColor(Rectangle card, String color) {
         RotateTransition rotateTransition = new RotateTransition(Duration.seconds(1), card);
         rotateTransition.setByAngle(180); // Rotate by 180 degrees
@@ -94,5 +106,23 @@ public class ControllerGame {
         }
         // Rotar la carta con animacion
         rotateTransition.play();
+    }
+
+    public static void pintarDatosPartida(Text t1, Text p1, Text t2, Text p2) {
+        AppData appData = AppData.getInstance();
+
+        t1.setText(appData.getPlayerName());
+        t2.setText(appData.getEnemyName());
+
+        p1.setText(((Integer) appData.getPlayerPoints()).toString());
+        p2.setText(((Integer) appData.getEnemyPoints()).toString());
+
+        if (appData.getTurn()) {
+            t1.setUnderline(true);
+            t2.setUnderline(false);
+        } else {
+            t2.setUnderline(true);
+            t1.setUnderline(false);
+        }
     }
 }
