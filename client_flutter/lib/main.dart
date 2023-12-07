@@ -14,6 +14,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController serverController = TextEditingController();
   final TextEditingController portController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
+  final TextEditingController roomController = TextEditingController();
 
   String _serverIp = '';
   final String _serverPort = '8888';
@@ -23,30 +24,31 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void _connectToServer() {
-    if (serverController.text.isEmpty) {
+    if (serverController.text.isEmpty || portController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Ingrese una dirección IP válida')));
+      return;
+    }
+    if (nameController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Ingrese un nombre de usuario')));
       return;
     }
     _serverIp = serverController.text;
     String server = "ws://$_serverIp:$_serverPort";
     _channel = IOWebSocketChannel.connect(server);
     Future.delayed(const Duration(seconds: 2));
-
     _channel!.stream.listen(
       (mensaje) {
         final data = jsonDecode(mensaje);
-        if (data['gameCreated'] == true) {
-          final message = {
-            'type': 'createGame',
-            'name': 'Desktop',
-          };
-          _channel!.sink.add(jsonEncode(message));
-          print("Login correcto");
-        } else if (data['valid'] == false) {
-          print("Login incorrecto");
+        if (data['type'] == "conn") {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(const SnackBar(content: Text('Conectado')));
+        } else if (data['type'] == "gameCreated") {
+          print("aa");
+        } else {
           ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Usuario o contraseña incorrecta')));
+              const SnackBar(content: Text('Error al conectar2')));
         }
       },
       onError: (error) {
@@ -59,23 +61,89 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _sendMessage(String mensaje) {
+  void _sendMessage(String type, String mensaje) {
     if (_channel != null) {
       final message = {
-        'type': 'message',
-        'value': mensaje,
-        'format': 'text',
+        if (type == "createGame")
+          {
+            'type': type,
+            'name': nameController.text,
+          }
+        else if (type == "joinGame")
+          {
+            'type': type,
+            'name': nameController.text,
+            'gameName': mensaje,
+          }
       };
       _channel!.sink.add(jsonEncode(message));
     }
   }
 
-  void _onConnectPressed() {
-    if (_formKey.currentState!.validate()) {
-      // Validation passed, proceed with connection logic
-      _connectToServer();
-      if (_channel != null) {
-        _sendMessage(nameController.text);
+  void _onConnectPressed() async {
+    _connectToServer();
+
+    if (_channel != null) {
+      String? result = await showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          content: Container(
+            width: 300.0,
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text('Enter a game name:',
+                    style: TextStyle(fontSize: 20)),
+                SizedBox(height: 15),
+                Container(
+                  padding: EdgeInsets.all(10.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: TextFormField(
+                    controller: roomController,
+                    decoration: InputDecoration(labelText: 'Game Name'),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a game name';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        // Handle "Create Game" button action
+                        Navigator.pop(context, 'create');
+                        _sendMessage("createGame", "");
+                      },
+                      child: const Text('Create Game'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Handle "Join Game" button action
+                        Navigator.pop(context, 'join');
+                        _sendMessage("joinGame", roomController.text);
+                      },
+                      child: const Text('Join Game'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+
+      // Navigate to the next screen based on the result
+      if (result == 'create' || result == 'join') {
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -90,13 +158,13 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login Screen'),
+        title: const Text('Login Screen'),
         centerTitle: true,
       ),
       body: Padding(
-        padding: EdgeInsets.all(100.0),
+        padding: const EdgeInsets.all(200.0),
         child: Container(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(80.0),
           decoration: BoxDecoration(
             color: Colors.green,
             borderRadius: BorderRadius.circular(10.0),
@@ -104,8 +172,6 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Form(
             key: _formKey,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
                   padding: EdgeInsets.all(10.0),
@@ -152,7 +218,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   child: TextFormField(
                     controller: nameController,
-                    decoration: InputDecoration(labelText: 'Name'),
+                    decoration: const InputDecoration(labelText: 'Name'),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter the name';
@@ -161,10 +227,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: _onConnectPressed,
-                  child: Text('Connect'),
+                  child: const Text('Connect'),
                 ),
               ],
             ),
@@ -192,9 +258,9 @@ void main() async {
   // Define the app as a ChangeNotifierProvider
   runApp(
     MaterialApp(
-      title: 'App',
+      title: 'Memory',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
       home: LoginScreen(),
     ),

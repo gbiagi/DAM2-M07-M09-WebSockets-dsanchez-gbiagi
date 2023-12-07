@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flip_card/flip_card.dart';
 
 class MemoryGame extends StatelessWidget {
+  String player1Name = "";
+  String player2Name = "";
+  String gameID = "";
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,9 +31,18 @@ class MyWidget extends StatelessWidget {
         const Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Text('Player1'),
-            Text('GameID'),
-            Text('Player2'),
+            Text('Player1',
+                style: TextStyle(
+                  fontSize: 20.0,
+                )),
+            Text('GameID',
+                style: TextStyle(
+                  fontSize: 20.0,
+                )),
+            Text('Player2',
+                style: TextStyle(
+                  fontSize: 20.0,
+                )),
           ],
         ),
         const SizedBox(height: 20),

@@ -57,6 +57,12 @@ public class Memory extends WebSocketServer {
         // Show the new conexion onthe server terminal
         String host = conn.getRemoteSocketAddress().getAddress().getHostAddress();
         System.out.println("New client (" + clientId + "): " + host);
+
+        // Send the usrID to the client
+        JSONObject objCln = new JSONObject("{}");
+        objCln.put("type", "conn");
+        objCln.put("usrID", clientId);
+        conn.send(objCln.toString());
     }
 
     @Override
