@@ -16,6 +16,10 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController roomController = TextEditingController();
 
+  String gameID = "";
+  String playerName = "";
+  String rivalName = "";
+
   String _serverIp = '';
   final String _serverPort = '8888';
 
@@ -45,7 +49,11 @@ class _LoginScreenState extends State<LoginScreen> {
           ScaffoldMessenger.of(context)
               .showSnackBar(const SnackBar(content: Text('Conectado')));
         } else if (data['type'] == "gameCreated") {
-          print("aa");
+          gameID = data['gameID'];
+          playerName = nameController.text;
+          setState(() {
+            rivalName = "Waiting for rival...";
+          });
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Error al conectar2')));
@@ -62,20 +70,20 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _sendMessage(String type, String mensaje) {
-    if (_channel != null) {
-      final message = {
-        if (type == "createGame")
-          {
-            'type': type,
-            'name': nameController.text,
+    final message = type == "createGame"
+        ? {
+            'type': 'createGame',
+            'name': playerName,
           }
-        else if (type == "joinGame")
-          {
-            'type': type,
-            'name': nameController.text,
-            'gameName': mensaje,
-          }
-      };
+        : type == "joinGame"
+            ? {
+                'type': 'joinGame',
+                'name': playerName,
+                'gameName': mensaje,
+              }
+            : null;
+
+    if (message != null) {
       _channel!.sink.add(jsonEncode(message));
     }
   }
@@ -122,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () {
                         // Handle "Create Game" button action
                         Navigator.pop(context, 'create');
-                        _sendMessage("createGame", "");
+                        _sendMessage("createGame", "a");
                       },
                       child: const Text('Create Game'),
                     ),
@@ -270,5 +278,5 @@ void main() async {
 // Show the window when it's ready
 void showWindow(_) async {
   windowManager.setMinimumSize(const Size(800.0, 1000.0));
-  await windowManager.setTitle('App');
+  await windowManager.setTitle('Memory');
 }
